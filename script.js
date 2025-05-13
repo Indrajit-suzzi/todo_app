@@ -1,18 +1,31 @@
-const todoInput = document.getElementById("todo-input");
-const addTaskButton = document.getElementById("add-task-btn");
-const todoList = document.getElementById("todo-list");
+document.addEventListener('DOMContentLoaded', () => {
+  const todoInput = document.getElementById("todo-input");
+  const addTaskButton = document.getElementById("add-task-btn");
+  const todoList = document.getElementById("todo-list");
 
-let tasks = [];
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-addTaskButton.addEventListener("click", () => {
-  let taskText = todoInput.value.trim();
-  if (taskText == "") return;
+  tasks.forEach(task => renderTask(task));
 
-  const newTAsk = {
-    id: Date.now(),
-    text: taskText,
-    completed: false,
-  };
-  tasks.push(newTAsk);
-  todoInput.value = ""; //clear input
-});
+  addTaskButton.addEventListener("click", () => {
+    let taskText = todoInput.value.trim();
+    if (taskText == "") return;
+
+    const newTAsk = {
+      id: Date.now(),
+      text: taskText,
+      completed: false,
+    };
+    tasks.push(newTAsk);
+    saveTask();
+    todoInput.value = ""; //clear input
+  });
+
+  function renderTask(task){
+    console.log(task)
+  }
+
+  function saveTask() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+})
